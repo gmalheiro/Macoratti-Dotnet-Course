@@ -1212,11 +1212,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programming\\Back\\C#\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
+      "projectUniqueName": "D:\\Programming\\Back\\C#\\Macoratti course\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
       "projectName": "ApiCatalogo",
-      "projectPath": "D:\\Programming\\Back\\C#\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
+      "projectPath": "D:\\Programming\\Back\\C#\\Macoratti course\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
       "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-      "outputPath": "D:\\Programming\\Back\\C#\\ApiCatalogo\\ApiCatalogo\\obj\\",
+      "outputPath": "D:\\Programming\\Back\\C#\\Macoratti course\\ApiCatalogo\\ApiCatalogo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
