@@ -17,8 +17,8 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpGet]
-        [Route("/ListarProutos")]
-        public ActionResult<IEnumerable<Produto>> ListarProdutos()
+        //[Route("/ListarProdutos")]
+        public ActionResult<IEnumerable<Produto>> Get()
         {
             var produtos = _context?.Produtos.ToList();
 
@@ -29,5 +29,19 @@ namespace ApiCatalogo.Controllers
          
             return Ok(_context?.Produtos.ToList());
         }
+
+        //[HttpGet("{id:int}",Name = "ObterProduto")]
+        [HttpGet("{id:int}")]
+        public ActionResult <Produto> Get(int id)
+        {
+            var produto = _context?.Produtos.FirstOrDefault(produto => produto.ProdutoId == id);
+
+            if (produto is null)
+            {
+                return NotFound("Produto não encontrado...");
+            }
+            return Ok(produto);
+        }
+
     }
 }
