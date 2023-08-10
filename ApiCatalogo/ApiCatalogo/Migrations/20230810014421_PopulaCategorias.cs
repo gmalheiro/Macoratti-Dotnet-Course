@@ -15,7 +15,7 @@ namespace ApiCatalogo.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.Sql("DELETE FROM categorias");
         }
     }
 }
