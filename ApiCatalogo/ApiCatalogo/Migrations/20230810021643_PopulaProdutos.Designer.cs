@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiCatalogo.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230810015759_PopulaProdutos")]
+    [Migration("20230810021643_PopulaProdutos")]
     partial class PopulaProdutos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,11 @@ namespace ApiCatalogo.Migrations
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
 
                     b.Property<float>("Estoque")
                         .HasColumnType("float");
