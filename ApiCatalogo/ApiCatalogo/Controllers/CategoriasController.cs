@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiCatalogo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CategoriasController : ControllerBase
     {
@@ -16,6 +16,12 @@ namespace ApiCatalogo.Controllers
         public CategoriasController(AppDbContext context)
         {
             _context = context;
+        }
+
+        [HttpGet("produtos")]
+        public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+        {
+            return Ok(_context?.Categorias.Include(p=> p.Produtos).ToList());
         }
 
         [HttpGet]
@@ -35,7 +41,7 @@ namespace ApiCatalogo.Controllers
 
 
         [HttpGet("id:int",Name = "ObterCategoria")]
-        public ActionResult Get(int id)
+        public ActionResult<Categoria> Get(int id)
         {
             var categoria = _context?.Categorias.FirstOrDefault(categoria => categoria.CategoriaId == id);
 
@@ -68,7 +74,7 @@ namespace ApiCatalogo.Controllers
             if (id != categoria.CategoriaId)
                 return NotFound("Categoria não encontrada...");
 
-            _context!.Entry(categoria).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context!.Entry(categoria).State = EntityState.Modified;
 
             _context?.SaveChanges(true);
 
@@ -77,7 +83,7 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpDelete("id:int")]
-        public ActionResult Delete(int id)
+        public ActionResult<Categoria> Delete(int id)
         {
             var categoria = _context?.Categorias.FirstOrDefault(c=> c.CategoriaId == id);
 
