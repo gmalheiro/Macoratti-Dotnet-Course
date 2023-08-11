@@ -29,29 +29,44 @@ namespace ApiCatalogo.Controllers
         public ActionResult<IEnumerable<Categoria>> Get()
         {
 
-            var categorias = _context?.Categorias.AsNoTracking().ToList();
-            //var categorias = _context?.Categorias.Include(p => p.Produtos).Where(c=> c.CategoriaId <= 5).ToList() ;
-            if (categorias is null)
+            try
             {
-                return NotFound("Categorias não encontradas...");
+                var categorias = _context?.Categorias.AsNoTracking().ToList();
+                if (categorias is null)
+                {
+                    return NotFound("Categorias não encontradas...");
+                }
+                return Ok(categorias);
             }
+            catch (Exception)
+            {
 
-
-            return Ok(categorias);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                                  "Ocorreu um erro ao tratar a sua solicitação");
+            }
         }
 
 
         [HttpGet("id:int",Name = "ObterCategoria")]
         public ActionResult<Categoria> Get(int id)
         {
-            var categoria = _context?.Categorias.FirstOrDefault(categoria => categoria.CategoriaId == id);
-
-            if (categoria is null)
+            try
             {
-                return NotFound("Categoria não encontrada");
-            }
+                var categoria = _context?.Categorias.FirstOrDefault(categoria => categoria.CategoriaId == id);
 
-            return Ok(categoria);
+                if (categoria is null)
+                {
+                    return NotFound("Categoria não encontrada");
+                }
+
+                return Ok(categoria);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                                  ("Ocorreu um erro ao tratar a sua solicitação"));
+            }
         }
 
         [HttpPost]
