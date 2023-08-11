@@ -59,5 +59,20 @@ namespace ApiCatalogo.Controllers
 
         }
 
+        [HttpPut("{id:int}")]
+        public ActionResult Put(int id, Produto produto)
+        {
+            if (id != produto.ProdutoId)
+            {
+                return BadRequest("Produto não encontrado");
+            }
+
+            _context!.Entry(produto).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges(true);
+
+            return Ok(produto);
+
+        }
+
     }
 }
