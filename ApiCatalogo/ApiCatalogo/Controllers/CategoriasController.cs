@@ -21,14 +21,15 @@ namespace ApiCatalogo.Controllers
         [HttpGet("produtos")]
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
-            return Ok(_context?.Categorias.Include(p=> p.Produtos).ToList());
+            //return Ok(_context?.Categorias.Include(p=> p.Produtos).ToList());
+            return Ok(_context?.Categorias.Include(p=> p.Produtos).Where(c => c.CategoriaId <= 5).ToList());
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
         {
 
-            var categorias = _context?.Categorias.ToList();
+            var categorias = _context?.Categorias.AsNoTracking().ToList();
             //var categorias = _context?.Categorias.Include(p => p.Produtos).Where(c=> c.CategoriaId <= 5).ToList() ;
             if (categorias is null)
             {
