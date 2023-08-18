@@ -29,6 +29,13 @@ app.MapGet("frases", async () => await new HttpClient().GetStringAsync("https://
 
 app.MapGet("/Tarefas", async (AppDbContext db) => await db.Tarefas.ToListAsync());
 
+app.MapPost("/CriarTarefa", async(Tarefa tarefa, AppDbContext db) => 
+{
+    db?.Tarefas.AddAsync(tarefa);
+    await db!.SaveChangesAsync();
+    return Results.Created($"/Tarefas/{tarefa.Id}",tarefa);
+});
+
 app.Run();
 
 class Tarefa
