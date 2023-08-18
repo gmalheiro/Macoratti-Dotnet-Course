@@ -24,3 +24,10 @@ app.MapGet("/Nomes", async () => await new HttpClient().GetStringAsync("https://
 app.MapGet("frases", async () => await new HttpClient().GetStringAsync("https://ron-swanson-quotes.herokuapp.com/v2/quotes"));
 
 app.Run();
+
+class Tarefa
+{
+    public int Id { get; set; }
+    public string? Nome { get; set; }
+    public bool IsConcluida { get; set; }
+}
