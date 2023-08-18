@@ -27,6 +27,8 @@ app.MapGet("/Nomes", async () => await new HttpClient().GetStringAsync("https://
 
 app.MapGet("frases", async () => await new HttpClient().GetStringAsync("https://ron-swanson-quotes.herokuapp.com/v2/quotes"));
 
+app.MapGet("/Tarefas", async (AppDbContext db) => await db.Tarefas.ToListAsync());
+
 app.Run();
 
 class Tarefa
