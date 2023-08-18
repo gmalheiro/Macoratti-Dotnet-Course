@@ -21,4 +21,6 @@ app.MapGet("/",() => "Olá mundo");
 
 app.MapGet("/Nomes", async () => await new HttpClient().GetStringAsync("https://gerador-nomes.wolan.net/nome/aleatorio")) ;
 
+app.MapGet("frases", async () => await new HttpClient().GetStringAsync("https://ron-swanson-quotes.herokuapp.com/v2/quotes"));
+
 app.Run();
