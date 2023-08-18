@@ -1138,6 +1138,13 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 
+./suo
+.suo
+.vs/
+.vs
+.bin
+.bin/
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
