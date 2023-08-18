@@ -38,6 +38,8 @@ app.MapPost("/CriarTarefa", async(Tarefa tarefa, AppDbContext db) =>
 
 app.MapGet("/TarefaPorId/{id:int}", async(int id, AppDbContext db) => await db.Tarefas.FindAsync(id) is Tarefa tarefa ? Results.Ok() : Results.NotFound());
 
+app.MapGet("/Tarefas/Concluidas", async (AppDbContext db) => await db.Tarefas.Where(t => t.IsConcluida).ToListAsync());
+
 app.Run();
 
 class Tarefa
