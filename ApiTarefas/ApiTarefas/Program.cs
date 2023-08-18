@@ -19,4 +19,6 @@ app.UseHttpsRedirection();
 
 app.MapGet("/",() => "Olá mundo");
 
+app.MapGet("/Nomes", async () => await new HttpClient().GetStringAsync("https://gerador-nomes.wolan.net/nome/aleatorio")) ;
+
 app.Run();
