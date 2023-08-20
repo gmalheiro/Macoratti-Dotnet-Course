@@ -40,6 +40,18 @@ app.MapGet("/TarefaPorId/{id:int}", async(int id, AppDbContext db) => await db.T
 
 app.MapGet("/Tarefas/Concluidas", async (AppDbContext db) => await db.Tarefas.Where(t => t.IsConcluida).ToListAsync());
 
+app.MapDelete("/DeletarTarefas/id:int)", async (AppDbContext db, int id) =>
+{
+    var tarefa = await db.Tarefas.FirstOrDefaultAsync(t => t.Id == id);
+    if (tarefa == null)
+        return Results.NotFound("Tarefa não encontrada...");
+
+    db.Remove(tarefa);
+    db?.SaveChangesAsync();
+    return Results.Ok(tarefa);
+
+});
+
 app.Run();
 
 class Tarefa
