@@ -17,7 +17,7 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpGet]
-        //[Route("/ListarProdutos")]
+        [Route("/ListarProdutos")]
         public ActionResult<IEnumerable<Produto>> Get()
         {
             var produtos = _context?.Produtos.ToList();
