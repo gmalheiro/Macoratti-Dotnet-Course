@@ -52,6 +52,16 @@ app.MapDelete("/DeletarTarefas/id:int)", async (AppDbContext db, int id) =>
 
 });
 
+app.MapPut("AlterarTarefa/{id:int}", async (AppDbContext db, int id,Tarefa tarefa) =>
+{
+    if (tarefa.Id != id)
+        return Results.NotFound("Tarefa não encontrada...");
+    
+    db.Entry(tarefa).State = EntityState.Modified;
+    await db.SaveChangesAsync();
+    return Results.Ok(tarefa);
+});
+
 app.Run();
 
 class Tarefa
