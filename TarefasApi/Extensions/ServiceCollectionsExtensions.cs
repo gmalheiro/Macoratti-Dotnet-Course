@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using TarefasApi.Data;
 using static TarefasApi.Data.TarefaContext;
 
 namespace TarefasApi.Extensions
@@ -15,7 +10,7 @@ namespace TarefasApi.Extensions
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddScoped<GetConnection>(sp =>
-            async()=>
+            async () =>
             {
                 var connection = new SqlConnection(connectionString);
                 await connection.OpenAsync();
