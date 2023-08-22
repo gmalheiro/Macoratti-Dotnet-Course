@@ -42,7 +42,15 @@ namespace TarefasApi.Endpoints
                 var id = con.Insert<Tarefa>(tarefa);
                 return Results.Created($"/tarefa/{id}",tarefa);
             });
-            
+
+            app.MapPut("/tarefas", async (GetConnection connectionGetter, Tarefa tarefa) =>
+            {
+                using var con = await connectionGetter();
+                var id = con.Update(tarefa);
+                if(tarefa is null)
+                    return Results.NotFound("Tarefa não encontrada");
+                return Results.Ok(id);
+            });
         }
     }
 }
