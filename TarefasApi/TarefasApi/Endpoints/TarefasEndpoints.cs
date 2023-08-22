@@ -1,4 +1,4 @@
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 using TarefasApi.Data;
 using static TarefasApi.Data.TarefaContext;
 
@@ -8,7 +8,7 @@ namespace TarefasApi.Endpoints
     {
         public static void MapTarefasEndpoints(this WebApplication app)
         {
-             app.MapGet("/", () => $"Bem-Vindo a API Tarefas {DateTime.Now}");
+            app.MapGet("/", () => $"Bem-Vindo a API Tarefas {DateTime.Now}");
 
             app.MapGet("/tarefas", async(GetConnection connectionGetter) =>
             {

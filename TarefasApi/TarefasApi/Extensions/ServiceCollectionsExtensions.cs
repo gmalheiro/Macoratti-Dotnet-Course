@@ -1,4 +1,4 @@
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using static TarefasApi.Data.TarefaContext;
 
 namespace TarefasApi.Extensions
