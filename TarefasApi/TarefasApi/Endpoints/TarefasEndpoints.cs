@@ -20,6 +20,19 @@ namespace TarefasApi.Endpoints
 
                 return Results.Ok(tarefas);
             });
+
+            app.MapGet("/tarefa/{id:int}", async(GetConnection connectionGetter,int id) =>
+            {
+                using var con = await connectionGetter();
+                var tarefa = con.Get<Tarefa>(id);
+
+                if(tarefa is null)
+                    return Results.NotFound("Tarefa não encontrada");
+                
+                return Results.Ok(tarefa);
+
+            });
+
         }
     }
 }
