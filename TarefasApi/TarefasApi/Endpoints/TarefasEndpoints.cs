@@ -21,7 +21,7 @@ namespace TarefasApi.Endpoints
                 return Results.Ok(tarefas);
             });
 
-            app.MapGet("/tarefa/{id:int}", async(GetConnection connectionGetter,int id) =>
+            app.MapGet("/tarefa/{id}", async(GetConnection connectionGetter,int id) =>
             {
                 using var con = await connectionGetter();
                 var tarefa = con.Get<Tarefa>(id);
@@ -33,6 +33,16 @@ namespace TarefasApi.Endpoints
 
             });
 
+            app.MapPost("/tarefas", async(GetConnection connectionGetter, Tarefa tarefa) =>
+            {
+                using var con = await connectionGetter();
+                if(tarefa is null)
+                    return Results.BadRequest("Tarefa Nula");
+
+                var id = con.Insert<Tarefa>(tarefa);
+                return Results.Created($"/tarefa/{id}",tarefa);
+            });
+            
         }
     }
 }
