@@ -23,6 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("/",() => "Catálogo de produtos - 2023");
+
 app.UseHttpsRedirection();
 
 app.Run();
