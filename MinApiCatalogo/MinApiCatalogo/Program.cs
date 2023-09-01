@@ -24,7 +24,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/",() => "Catálogo de produtos - 2023");
+app.MapGet("/", () => "Catálogo de produtos - 2023").ExcludeFromDescription();
 
 app.MapPost("/categorias", async (AppDbContext db,Categoria categoria ) =>
 {
