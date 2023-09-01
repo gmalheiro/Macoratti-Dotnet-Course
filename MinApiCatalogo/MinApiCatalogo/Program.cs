@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MinApiCatalogo.Context;
+using MinApiCatalogo.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/",() => "Catálogo de produtos - 2023");
+
+app.MapPost("/categorias", async (AppDbContext db,Categoria categoria ) =>
+{
+    if (categoria is null)
+        return Results.BadRequest("Categoria nula");
+    db.Categoria?.AddAsync(categoria);
+    await db?.SaveChangesAsync()!;
+    return Results.Created($"/categorias/{categoria.CategoriaId}",categoria);
+});
 
 app.UseHttpsRedirection();
 
