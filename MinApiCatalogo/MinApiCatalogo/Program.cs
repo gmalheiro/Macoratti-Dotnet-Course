@@ -39,10 +39,10 @@ app.MapGet("/categorias", async (AppDbContext db) => await db?.Categoria?.ToList
 
 app.MapGet("/categorias/{id:int}", async (AppDbContext db, int id) =>
 {
-    var categoria = await db?.Categoria?.FirstOrDefaultAsync(c => c.CategoriaId == id)!;
-    if (categoria is null)
-        return Results.NotFound("Categoria não encontrada");
-    return Results.Ok(categoria);
+    return await db.Categoria!.FindAsync(id)
+    is Categoria categoria
+        ? Results.Ok(categoria)
+        : Results.NotFound("Categoria não encontrada") ;
 });
 app.UseHttpsRedirection();
 
