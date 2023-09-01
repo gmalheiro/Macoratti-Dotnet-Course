@@ -64,6 +64,21 @@ app.MapPut("/categorias/{id:int}", async (int id,AppDbContext db, Categoria cate
 
     return Results.Ok(categoriaDb);
 });
+
+app.MapDelete("/categorias/{id:int}", async (AppDbContext db, int id) =>
+{
+    var categoria = await db.Categoria!.FindAsync(id);
+
+    if(categoria is null)
+        return Results.NotFound("Categoria não encontrada");
+    
+    db.Categoria.Remove(categoria);
+    
+    await db.SaveChangesAsync();
+    
+    return Results.Ok(categoria);
+});
+
 app.UseHttpsRedirection();
 
 app.Run();
