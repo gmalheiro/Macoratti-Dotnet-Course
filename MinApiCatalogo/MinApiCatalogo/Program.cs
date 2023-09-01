@@ -30,8 +30,11 @@ app.MapPost("/categorias", async (AppDbContext db,Categoria categoria ) =>
 {
     if (categoria is null)
         return Results.BadRequest("Categoria nula");
+
     db.Categoria?.AddAsync(categoria);
+    
     await db?.SaveChangesAsync()!;
+    
     return Results.Created($"/categorias/{categoria.CategoriaId}",categoria);
 });
 
@@ -43,6 +46,23 @@ app.MapGet("/categorias/{id:int}", async (AppDbContext db, int id) =>
     is Categoria categoria
         ? Results.Ok(categoria)
         : Results.NotFound("Categoria não encontrada") ;
+});
+
+app.MapPut("/categorias/{id:int}", async (int id,AppDbContext db, Categoria categoria) =>
+{
+    if (id != categoria.CategoriaId)
+        return Results.BadRequest();
+
+    var categoriaDb = await db.Categoria!.FindAsync(id);
+    if (categoriaDb is null)
+        return Results.NotFound("Categoria não encontrada");
+    
+    categoriaDb.Nome = categoria.Nome;
+    categoriaDb.Descricao = categoria.Descricao;
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(categoriaDb);
 });
 app.UseHttpsRedirection();
 
