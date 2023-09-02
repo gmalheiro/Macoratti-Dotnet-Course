@@ -124,6 +124,20 @@ app.MapPut("/produtos/{id:int}", async (int id, AppDbContext db, Produto produto
     return Results.Ok(produtoDb);
 });
 
+app.MapDelete("/produtos/{id:int}", async (AppDbContext db, int id) =>
+{
+    var produto = await db.Produto!.FindAsync(id);
+
+    if (produto is null)
+        return Results.NotFound("Produto não encontrada");
+
+    db.Produto.Remove(produto);
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(produto);
+});
+
 app.UseHttpsRedirection();
 
 app.Run();
