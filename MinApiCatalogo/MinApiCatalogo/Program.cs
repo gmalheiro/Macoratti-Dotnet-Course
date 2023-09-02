@@ -128,10 +128,9 @@ app.MapDelete("/produtos/{id:int}", async (AppDbContext db, int id) =>
 {
     var produto = await db.Produto!.FindAsync(id);
 
-    if (produto is null)
-        return Results.NotFound("Produto não encontrada");
+    if (produto is null) 
 
-    db.Produto.Remove(produto);
+    db.Produto.Remove(produto!);
 
     await db.SaveChangesAsync();
 
