@@ -96,12 +96,10 @@ app.MapGet("/produtos", async (AppDbContext db) => await db?.Produto?.ToListAsyn
 
 app.MapGet("/produtos/{id:int}", async (AppDbContext db, int id) =>
 {
-    var produtoDb = await db.FindAsync<Produto>(id);
-
-    if (produtoDb is null)
-        return Results.NotFound("Produto não encontrado");
-
-    return Results.Ok(produtoDb);
+    return await db.FindAsync<Produto>(id)
+           is Produto produto
+           ? Results.Ok(produto)
+           : Results.NotFound("Produto não encontrado");
 });
 
 app.UseHttpsRedirection();
