@@ -79,6 +79,19 @@ app.MapDelete("/categorias/{id:int}", async (AppDbContext db, int id) =>
     return Results.Ok(categoria);
 });
 
+//-------------------------endpoints para produtos---------------------------------
+app.MapPost("/produtos", async (AppDbContext db, Produto produto) =>
+{
+    if (produto is null)
+        return Results.BadRequest("Produto nulo");
+
+    db.Produto?.AddAsync(produto);
+
+    await db?.SaveChangesAsync()!;
+
+    return Results.Created($"/produto/{produto.ProdutoId}", produto);
+});
+
 app.UseHttpsRedirection();
 
 app.Run();
