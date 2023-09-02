@@ -102,6 +102,28 @@ app.MapGet("/produtos/{id:int}", async (AppDbContext db, int id) =>
            : Results.NotFound("Produto não encontrado");
 });
 
+app.MapPut("/produtos/{id:int}", async (int id, AppDbContext db, Produto produto) =>
+{
+    if (id != produto.ProdutoId)
+        return Results.BadRequest();
+
+    var produtoDb = await db.Produto!.FindAsync(id);
+    if (produtoDb is null)
+        return Results.NotFound("Produto não encontrada");
+
+    produtoDb.Nome = produto.Nome;
+    produtoDb.Descricao = produto.Descricao;
+    produtoDb.Preco = produto.Preco;
+    produtoDb.Imagem = produto.Imagem;
+    produtoDb.DataCompra = produto.DataCompra;
+    produtoDb.Estoque = produto.Estoque;
+    produtoDb.CategoriaId = produto.CategoriaId;
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(produtoDb);
+});
+
 app.UseHttpsRedirection();
 
 app.Run();
