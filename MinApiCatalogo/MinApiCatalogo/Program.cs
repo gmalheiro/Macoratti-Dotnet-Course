@@ -92,6 +92,8 @@ app.MapPost("/produtos", async (AppDbContext db, Produto produto) =>
     return Results.Created($"/produto/{produto.ProdutoId}", produto);
 });
 
+app.MapGet("/produtos", async (AppDbContext db) => await db?.Produto?.ToListAsync()!);
+
 app.UseHttpsRedirection();
 
 app.Run();
