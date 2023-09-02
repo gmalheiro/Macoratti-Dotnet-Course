@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MinApiCatalogo.Context;
 using MinApiCatalogo.Models;
+using MinApiCatalogo.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +15,28 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<AppDbContext>(options => 
+builder.Services.AddDbContext<AppDbContext>(options =>
                                             options.
-                                            UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
+                                            UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddSingleton<ITokenService>(new TokenService());
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                 .AddJwtBearer(options =>
+                 {
+                     options.TokenValidationParameters = new TokenValidationParameters
+                     {
+                         ValidateIssuer = true,
+                         ValidateAudience = true,
+                         ValidateLifetime = true,
+                         ValidateIssuerSigningKey = true,
+
+                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                         ValidAudience = builder.Configuration["Jwt:Audience"],
+                         IssuerSigningKey = new SymmetricSecurityKey
+                         (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                     };
+                 });
 
 var app = builder.Build();
 
@@ -26,16 +49,16 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/", () => "Catálogo de produtos - 2023").ExcludeFromDescription();
 
-app.MapPost("/categorias", async (AppDbContext db,Categoria categoria ) =>
+app.MapPost("/categorias", async (AppDbContext db, Categoria categoria) =>
 {
     if (categoria is null)
         return Results.BadRequest("Categoria nula");
 
     db.Categoria?.AddAsync(categoria);
-    
+
     await db?.SaveChangesAsync()!;
-    
-    return Results.Created($"/categorias/{categoria.CategoriaId}",categoria);
+
+    return Results.Created($"/categorias/{categoria.CategoriaId}", categoria);
 });
 
 app.MapGet("/categorias", async (AppDbContext db) => await db?.Categoria?.ToListAsync()!); ;
@@ -45,10 +68,10 @@ app.MapGet("/categorias/{id:int}", async (AppDbContext db, int id) =>
     return await db.Categoria!.FindAsync(id)
     is Categoria categoria
         ? Results.Ok(categoria)
-        : Results.NotFound("Categoria não encontrada") ;
+        : Results.NotFound("Categoria não encontrada");
 });
 
-app.MapPut("/categorias/{id:int}", async (int id,AppDbContext db, Categoria categoria) =>
+app.MapPut("/categorias/{id:int}", async (int id, AppDbContext db, Categoria categoria) =>
 {
     if (id != categoria.CategoriaId)
         return Results.BadRequest();
@@ -56,7 +79,7 @@ app.MapPut("/categorias/{id:int}", async (int id,AppDbContext db, Categoria cate
     var categoriaDb = await db.Categoria!.FindAsync(id);
     if (categoriaDb is null)
         return Results.NotFound("Categoria não encontrada");
-    
+
     categoriaDb.Nome = categoria.Nome;
     categoriaDb.Descricao = categoria.Descricao;
 
@@ -69,13 +92,13 @@ app.MapDelete("/categorias/{id:int}", async (AppDbContext db, int id) =>
 {
     var categoria = await db.Categoria!.FindAsync(id);
 
-    if(categoria is null)
+    if (categoria is null)
         return Results.NotFound("Categoria não encontrada");
-    
+
     db.Categoria.Remove(categoria);
-    
+
     await db.SaveChangesAsync();
-    
+
     return Results.Ok(categoria);
 });
 
@@ -128,9 +151,9 @@ app.MapDelete("/produtos/{id:int}", async (AppDbContext db, int id) =>
 {
     var produto = await db.Produto!.FindAsync(id);
 
-    if (produto is null) 
+    if (produto is null)
 
-    db.Produto.Remove(produto!);
+        db.Produto.Remove(produto!);
 
     await db.SaveChangesAsync();
 
