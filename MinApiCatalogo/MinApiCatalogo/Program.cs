@@ -162,4 +162,6 @@ app.MapDelete("/produtos/{id:int}", async (AppDbContext db, int id) =>
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();
