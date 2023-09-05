@@ -54,9 +54,9 @@ app.MapPost("/login", [AllowAnonymous] (UserModel userModel, ITokenService token
 {
     if (userModel == null)
     {
-        return Results.BadRequest("Login Inv�lido");
+        return Results.BadRequest("Login Inválido");
     }
-    if (userModel.UserName == "macoratti" && userModel.Password == "numsey#123")
+    if (userModel.UserName == "DotnetMalheiro" && userModel.Password == "numsey#123")
     {
         var tokenString = tokenService.GerarToken(app.Configuration["Jwt:Key"],
             app.Configuration["Jwt:Issuer"],
