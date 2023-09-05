@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MinApiCatalogo.ApiEndpoints;
 using MinApiCatalogo.Context;
 using MinApiCatalogo.Models;
 using MinApiCatalogo.Services;
@@ -79,83 +80,13 @@ if (app.Environment.IsDevelopment())
 
 
 //endpoint para login
-app.MapPost("/login", [AllowAnonymous] (UserModel userModel, ITokenService tokenService) =>
-{
-    if (userModel == null)
-    {
-        return Results.BadRequest("Login Inválido");
-    }
-    if (userModel.UserName == "DotnetMalheiro" && userModel.Password == "numsey#123")
-    {
-        var tokenString = tokenService.GerarToken(app.Configuration["Jwt:Key"],
-            app.Configuration["Jwt:Issuer"],
-            app.Configuration["Jwt:Audience"],
-            userModel);
-        return Results.Ok(new { token = tokenString });
-    }
-    else
-    {
-        return Results.BadRequest("Login Inv�lido");
-    }
-}).Produces(StatusCodes.Status400BadRequest)
-              .Produces(StatusCodes.Status200OK)
-              .WithName("Login")
-              .WithTags("Autenticacao");
+app.MapAutenticacaoEndpoints();
 
+//Enpoint para Hello World
 app.MapGet("/", () => "Catálogo de produtos - 2023").ExcludeFromDescription();
 
-app.MapPost("/categorias", async (AppDbContext db, Categoria categoria) =>
-{
-    if (categoria is null)
-        return Results.BadRequest("Categoria nula");
-
-    db.Categoria?.AddAsync(categoria);
-
-    await db?.SaveChangesAsync()!;
-
-    return Results.Created($"/categorias/{categoria.CategoriaId}", categoria);
-});
-
-app.MapGet("/categorias", async (AppDbContext db) => await db?.Categoria?.ToListAsync()!).WithTags("Categorias").RequireAuthorization(); ;
-
-app.MapGet("/categorias/{id:int}", async (AppDbContext db, int id) =>
-{
-    return await db.Categoria!.FindAsync(id)
-    is Categoria categoria
-        ? Results.Ok(categoria)
-        : Results.NotFound("Categoria não encontrada");
-});
-
-app.MapPut("/categorias/{id:int}", async (int id, AppDbContext db, Categoria categoria) =>
-{
-    if (id != categoria.CategoriaId)
-        return Results.BadRequest();
-
-    var categoriaDb = await db.Categoria!.FindAsync(id);
-    if (categoriaDb is null)
-        return Results.NotFound("Categoria não encontrada");
-
-    categoriaDb.Nome = categoria.Nome;
-    categoriaDb.Descricao = categoria.Descricao;
-
-    await db.SaveChangesAsync();
-
-    return Results.Ok(categoriaDb);
-});
-
-app.MapDelete("/categorias/{id:int}", async (AppDbContext db, int id) =>
-{
-    var categoria = await db.Categoria!.FindAsync(id);
-
-    if (categoria is null)
-        return Results.NotFound("Categoria não encontrada");
-
-    db.Categoria.Remove(categoria);
-
-    await db.SaveChangesAsync();
-
-    return Results.Ok(categoria);
-});
+// Endpoins para categorias
+app.MapCategoriasEndpoints();
 
 //-------------------------endpoints para produtos---------------------------------
 app.MapPost("/produtos", async (AppDbContext db, Produto produto) =>
