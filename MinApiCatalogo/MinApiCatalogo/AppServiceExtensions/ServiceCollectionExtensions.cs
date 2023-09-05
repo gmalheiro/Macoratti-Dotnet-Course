@@ -1,4 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using MinApiCatalogo.Context;
+using MinApiCatalogo.Services;
 
 namespace MinApiCatalogo.AppServiceExtensions
 {
@@ -44,5 +47,21 @@ namespace MinApiCatalogo.AppServiceExtensions
             });
             return services;
         }
+
+        public static WebApplicationBuilder AddPersistence(
+       this WebApplicationBuilder builder)
+        {
+            var connectionString = builder.Configuration
+                                            .GetConnectionString("DefaultConnection");
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                                                options.
+                                                UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+            builder.Services.AddSingleton<ITokenService>(new TokenService());
+
+            return builder;
+        }
+
     }
 }
