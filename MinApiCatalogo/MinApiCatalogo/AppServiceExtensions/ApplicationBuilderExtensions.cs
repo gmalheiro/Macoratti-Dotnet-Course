@@ -24,7 +24,7 @@
             
         }
 
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerMiddleware(this IApplicationBuilder app)
         {
             app.UseSwagger();
             app.UseSwaggerUI();

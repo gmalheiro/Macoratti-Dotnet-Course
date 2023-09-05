@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MinApiCatalogo.ApiEndpoints;
+using MinApiCatalogo.AppServiceExtensions;
 using MinApiCatalogo.Context;
 using MinApiCatalogo.Models;
 using MinApiCatalogo.Services;
@@ -71,11 +72,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+var environment = app.Environment;
+
+app.UseExceptionHandling(environment)
+    .UseSwaggerMiddleware()
+    .UseAppCors();
+
+
 // Configure the HTTP request pipeline.//Configure
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    
 }
 
 
