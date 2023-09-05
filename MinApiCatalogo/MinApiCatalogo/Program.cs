@@ -87,7 +87,7 @@ app.MapPost("/categorias", async (AppDbContext db, Categoria categoria) =>
     return Results.Created($"/categorias/{categoria.CategoriaId}", categoria);
 });
 
-app.MapGet("/categorias", async (AppDbContext db) => await db?.Categoria?.ToListAsync()!).RequireAuthorization(); ;
+app.MapGet("/categorias", async (AppDbContext db) => await db?.Categoria?.ToListAsync()!).WithTags("Categorias").RequireAuthorization(); ;
 
 app.MapGet("/categorias/{id:int}", async (AppDbContext db, int id) =>
 {
