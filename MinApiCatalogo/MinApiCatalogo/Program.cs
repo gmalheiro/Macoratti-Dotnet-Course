@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+Ôªøusing Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MinApiCatalogo.Context;
@@ -47,7 +48,32 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/", () => "Cat·logo de produtos - 2023").ExcludeFromDescription();
+
+//endpoint para login
+app.MapPost("/login", [AllowAnonymous] (UserModel userModel, ITokenService tokenService) =>
+{
+    if (userModel == null)
+    {
+        return Results.BadRequest("Login InvÔøΩlido");
+    }
+    if (userModel.UserName == "macoratti" && userModel.Password == "numsey#123")
+    {
+        var tokenString = tokenService.GerarToken(app.Configuration["Jwt:Key"],
+            app.Configuration["Jwt:Issuer"],
+            app.Configuration["Jwt:Audience"],
+            userModel);
+        return Results.Ok(new { token = tokenString });
+    }
+    else
+    {
+        return Results.BadRequest("Login InvÔøΩlido");
+    }
+}).Produces(StatusCodes.Status400BadRequest)
+              .Produces(StatusCodes.Status200OK)
+              .WithName("Login")
+              .WithTags("Autenticacao");
+
+app.MapGet("/", () => "Cat√°logo de produtos - 2023").ExcludeFromDescription();
 
 app.MapPost("/categorias", async (AppDbContext db, Categoria categoria) =>
 {
@@ -68,7 +94,7 @@ app.MapGet("/categorias/{id:int}", async (AppDbContext db, int id) =>
     return await db.Categoria!.FindAsync(id)
     is Categoria categoria
         ? Results.Ok(categoria)
-        : Results.NotFound("Categoria n„o encontrada");
+        : Results.NotFound("Categoria n√£o encontrada");
 });
 
 app.MapPut("/categorias/{id:int}", async (int id, AppDbContext db, Categoria categoria) =>
@@ -78,7 +104,7 @@ app.MapPut("/categorias/{id:int}", async (int id, AppDbContext db, Categoria cat
 
     var categoriaDb = await db.Categoria!.FindAsync(id);
     if (categoriaDb is null)
-        return Results.NotFound("Categoria n„o encontrada");
+        return Results.NotFound("Categoria n√£o encontrada");
 
     categoriaDb.Nome = categoria.Nome;
     categoriaDb.Descricao = categoria.Descricao;
@@ -93,7 +119,7 @@ app.MapDelete("/categorias/{id:int}", async (AppDbContext db, int id) =>
     var categoria = await db.Categoria!.FindAsync(id);
 
     if (categoria is null)
-        return Results.NotFound("Categoria n„o encontrada");
+        return Results.NotFound("Categoria n√£o encontrada");
 
     db.Categoria.Remove(categoria);
 
@@ -122,7 +148,7 @@ app.MapGet("/produtos/{id:int}", async (AppDbContext db, int id) =>
     return await db.FindAsync<Produto>(id)
            is Produto produto
            ? Results.Ok(produto)
-           : Results.NotFound("Produto n„o encontrado");
+           : Results.NotFound("Produto n√£o encontrado");
 });
 
 app.MapPut("/produtos/{id:int}", async (int id, AppDbContext db, Produto produto) =>
@@ -132,7 +158,7 @@ app.MapPut("/produtos/{id:int}", async (int id, AppDbContext db, Produto produto
 
     var produtoDb = await db.Produto!.FindAsync(id);
     if (produtoDb is null)
-        return Results.NotFound("Produto n„o encontrada");
+        return Results.NotFound("Produto n√£o encontrada");
 
     produtoDb.Nome = produto.Nome;
     produtoDb.Descricao = produto.Descricao;
