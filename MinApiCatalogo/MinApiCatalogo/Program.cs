@@ -21,7 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                                             UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddSingleton<ITokenService>(new TokenService());
-
+builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                  .AddJwtBearer(options =>
                  {
@@ -190,4 +190,5 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.Run();
