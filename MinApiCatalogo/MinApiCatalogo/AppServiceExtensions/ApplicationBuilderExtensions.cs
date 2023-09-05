@@ -23,5 +23,12 @@
             return app;
             
         }
+
+        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            return app;
+        }
     }
 }
