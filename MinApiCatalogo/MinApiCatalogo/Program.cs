@@ -1,23 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using MinApiCatalogo.ApiEndpoints;
+﻿using MinApiCatalogo.ApiEndpoints;
 using MinApiCatalogo.AppServiceExtensions;
-using MinApiCatalogo.Context;
-using MinApiCatalogo.Models;
-using MinApiCatalogo.Services;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container. //ConfigureServices no Startup
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.AddApiSwagger();
 builder.AddPersistence();
 builder.AddAuthenticationJwt();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -31,7 +21,7 @@ app.UseExceptionHandling(environment)
 // Configure the HTTP request pipeline.//Configure
 if (app.Environment.IsDevelopment())
 {
-    
+
 }
 
 
