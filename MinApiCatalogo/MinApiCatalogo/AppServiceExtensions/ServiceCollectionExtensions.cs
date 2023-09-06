@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MinApiCatalogo.Context;
 using MinApiCatalogo.Services;
+using System.Text;
 
 namespace MinApiCatalogo.AppServiceExtensions
 {
@@ -59,6 +62,29 @@ namespace MinApiCatalogo.AppServiceExtensions
                                                 UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
             builder.Services.AddSingleton<ITokenService>(new TokenService());
+
+            return builder;
+        }
+
+        public static WebApplicationBuilder AddAuthenticationJwt(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                             .AddJwtBearer(options =>
+                             {
+                                 options.TokenValidationParameters = new TokenValidationParameters
+                                 {
+                                     ValidateIssuer = true,
+                                     ValidateAudience = true,
+                                     ValidateLifetime = true,
+                                     ValidateIssuerSigningKey = true,
+
+                                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                                     ValidAudience = builder.Configuration["Jwt:Audience"],
+                                     IssuerSigningKey = new SymmetricSecurityKey
+                                     (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                                 };
+                             });
+            builder.Services.AddAuthorization();
 
             return builder;
         }
