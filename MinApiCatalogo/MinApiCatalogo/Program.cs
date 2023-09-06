@@ -17,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddApiSwagger();
 builder.AddPersistence();
+builder.AddAuthenticationJwt();
 
 var app = builder.Build();
 
