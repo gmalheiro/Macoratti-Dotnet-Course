@@ -29,6 +29,18 @@ namespace ApiCatalogo.Controllers
          
             return Ok(_context?.Produtos.ToList());
         }
+        // /produtos/primeiro
+        [HttpGet("primeiro")]
+        public ActionResult<Produto> GetPrimeiroProduto()
+        {
+            var produto = _context?.Produtos.FirstOrDefault();
+
+            if (produto is null)
+            {
+                return NotFound("Produto não encontrado...");
+            }
+            return Ok(produto);
+        }
 
         //[HttpGet("{id:int}",Name = "ObterProduto")]
         [HttpGet("{id:int}",Name = "ObterProduto")]
