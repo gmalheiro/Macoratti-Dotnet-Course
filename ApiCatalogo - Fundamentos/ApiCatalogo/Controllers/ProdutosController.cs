@@ -32,9 +32,10 @@ namespace ApiCatalogo.Controllers
             return Ok(_context?.Produtos.ToList());
         }
         // /produtos/primeiro
-        [HttpGet("primeiro")]
-        [HttpGet("teste")]
-        [HttpGet("/primeiro")]
+        //[HttpGet("primeiro")]
+        //[HttpGet("teste")]
+        //[HttpGet("/primeiro")]
+        [HttpGet("{valor:alpha:length(5)}")]
         public ActionResult<Produto> GetPrimeiroProduto()
         {
             var produto = _context?.Produtos.FirstOrDefault();
