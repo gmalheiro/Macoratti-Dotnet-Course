@@ -17,6 +17,7 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpGet]
+        // /ListarProdutos
         [Route("/ListarProdutos")]
         public ActionResult<IEnumerable<Produto>> Get()
         {
@@ -31,6 +32,8 @@ namespace ApiCatalogo.Controllers
         }
         // /produtos/primeiro
         [HttpGet("primeiro")]
+        [HttpGet("teste")]
+        [HttpGet("/primeiro")]
         public ActionResult<Produto> GetPrimeiroProduto()
         {
             var produto = _context?.Produtos.FirstOrDefault();
@@ -43,9 +46,12 @@ namespace ApiCatalogo.Controllers
         }
 
         //[HttpGet("{id:int}",Name = "ObterProduto")]
-        [HttpGet("{id:int}",Name = "ObterProduto")]
-        public ActionResult <Produto> Get(int id)
+        //[HttpGet("{id}/{param2}",Name = "ObterProduto")]
+        [HttpGet("{id}/{nome=Caderno}",Name = "ObterProduto")]
+        public ActionResult <Produto> Get(int id,string nome)
         {
+            var parametro = nome;
+
             var produto = _context?.Produtos.FirstOrDefault(produto => produto.ProdutoId == id);
 
             if (produto is null)
@@ -56,6 +62,7 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpPost]
+        // /api/produtos
         public ActionResult Post(Produto produto)
         {
             if(produto is null)
