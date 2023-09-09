@@ -2,6 +2,7 @@
 using ApiCatalogo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiCatalogo.Controllers
 {
@@ -45,14 +46,12 @@ namespace ApiCatalogo.Controllers
             return Ok(produto);
         }
 
-        //[HttpGet("{id:int}",Name = "ObterProduto")]
         //[HttpGet("{id}/{param2}",Name = "ObterProduto")]
-        [HttpGet("{id}/{nome=Caderno}",Name = "ObterProduto")]
+        //[HttpGet("{id}/{nome=Caderno}",Name = "ObterProduto")]
+        [HttpGet("{id:int:min(1)}",Name = "ObterProduto")]
         public ActionResult <Produto> Get(int id,string nome)
         {
-            var parametro = nome;
-
-            var produto = _context?.Produtos.FirstOrDefault(produto => produto.ProdutoId == id);
+            var produto = _context?.Produtos.AsNoTracking().FirstOrDefault(produto => produto.ProdutoId == id);
 
             if (produto is null)
             {
