@@ -44,9 +44,9 @@ namespace ApiCatalogo.Controllers
         //[HttpGet("{id}/{param2}",Name = "ObterProduto")]
         //[HttpGet("{id}/{nome=Caderno}",Name = "ObterProduto")]
         [HttpGet("{id:int:min(1)}",Name = "ObterProduto")]
-        public ActionResult <Produto> Get(int id,string nome)
+        public async Task<ActionResult <Produto>> GetByIdAsync(int id)
         {
-            var produto = _context?.Produtos.AsNoTracking().FirstOrDefault(produto => produto.ProdutoId == id);
+            var produto = await _context?.Produtos?.AsNoTracking()?.FirstOrDefaultAsync(p => p.ProdutoId == id)!;
 
             if (produto is null)
             {
