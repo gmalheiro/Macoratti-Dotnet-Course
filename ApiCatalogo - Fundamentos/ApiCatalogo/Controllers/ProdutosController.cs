@@ -19,17 +19,11 @@ namespace ApiCatalogo.Controllers
 
         [HttpGet]
         // /ListarProdutos
-        [Route("/ListarProdutos")]
-        public ActionResult<IEnumerable<Produto>> Get()
+        //[Route("/ListarProdutos")]
+        public async Task<ActionResult<IEnumerable<Produto>>> GetAsync()
         {
-            var produtos = _context?.Produtos.ToList();
-
-            if (produtos is null)
-            {
-                return NotFound("Produtos não encontrados...");
-            }
-         
-            return Ok(_context?.Produtos.ToList());
+            var produtos = await _context?.Produtos.AsNoTracking().ToListAsync()!;
+            return Ok(produtos);
         }
         // /produtos/primeiro
         //[HttpGet("primeiro")]
