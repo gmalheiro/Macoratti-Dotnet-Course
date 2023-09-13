@@ -1,6 +1,7 @@
 ﻿namespace ApiCatalogo.Services
 {
-    public class IMeuServico
+    public interface IMeuServico
     {
+        string saudacao(string nome);
     }
 }
