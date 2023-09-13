@@ -2,6 +2,7 @@
 using ApiCatalogo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiCatalogo.Controllers
@@ -44,8 +45,9 @@ namespace ApiCatalogo.Controllers
         //[HttpGet("{id}/{param2}",Name = "ObterProduto")]
         //[HttpGet("{id}/{nome=Caderno}",Name = "ObterProduto")]
         [HttpGet("{id:int:min(1)}",Name = "ObterProduto")]
-        public async Task<ActionResult <Produto>> GetByIdAsync(int id)
+        public async Task<ActionResult <Produto>> GetByIdAsync(int id, [BindRequired] string nome)
         {
+            var nomeProduto = nome;
             var produto = await _context?.Produtos?.AsNoTracking()?.FirstOrDefaultAsync(p => p.ProdutoId == id)!;
 
             if (produto is null)
