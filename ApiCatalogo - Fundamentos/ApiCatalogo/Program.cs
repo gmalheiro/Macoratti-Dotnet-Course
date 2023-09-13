@@ -1,4 +1,5 @@
 using ApiCatalogo.Context;
+using ApiCatalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -18,7 +19,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 string mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<AppDbContext>(options => 
+builder.Services.AddTransient<IMeuServico,MeuServico>();
+builder.Services.AddDbContext<AppDbContext>(options =>
                                             options.UseMySql(mySqlConnection,
                                             ServerVersion.AutoDetect(mySqlConnection)
                                             ));
