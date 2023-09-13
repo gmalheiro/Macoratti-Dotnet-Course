@@ -19,7 +19,7 @@ namespace ApiCatalogo.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("saudacao/{nome}")]
         public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)
         {
             return meuServico.saudacao(nome);
