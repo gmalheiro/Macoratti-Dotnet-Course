@@ -45,6 +45,12 @@ namespace ApiCatalogo.Models
                         ValidationResult("A primeira letra do produto deve ser maiúscula", new[] { nameof(this.Nome) });
                 }
             }
+
+            if (this.Estoque <= 0)
+            {
+                yield return new
+                        ValidationResult("O estoque deve ser maior que 0", new[] { nameof(this.Estoque) });
+            }
         }
     }
 }
