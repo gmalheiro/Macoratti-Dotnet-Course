@@ -40,4 +40,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//Middlewares com run são middlewares finais após eles nem um middleware será chamado
+//app.Run(async (context) =>
+//{
+//    await context.Response.WriteAsync("Middleware final");
+//});
+
 app.Run();
