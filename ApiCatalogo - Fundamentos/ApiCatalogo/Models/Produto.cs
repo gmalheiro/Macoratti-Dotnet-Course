@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace ApiCatalogo.Models
 {
     [Table("Produtos")]
-    public class Produto
+    public class Produto : IValidatableObject
     {
         [Key]
         public int ProdutoId { get; set; }
@@ -33,5 +33,10 @@ namespace ApiCatalogo.Models
         public int CategoriaId { get; set; }
         [JsonIgnore]
         public Categoria? Categoria { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
