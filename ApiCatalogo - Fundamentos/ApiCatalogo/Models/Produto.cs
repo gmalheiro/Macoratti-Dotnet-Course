@@ -36,7 +36,15 @@ namespace ApiCatalogo.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            throw new NotImplementedException();
+            if (!string.IsNullOrEmpty(this.Nome))
+            {
+                var primeiraLetra = this.Nome[0].ToString();
+                if (primeiraLetra != primeiraLetra.ToUpper())
+                {
+                    yield return new
+                        ValidationResult("A primeira letra do produto deve ser maiúscula", new[] { nameof(this.Nome) });
+                }
+            }
         }
     }
 }
