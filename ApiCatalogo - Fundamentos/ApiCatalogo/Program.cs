@@ -31,6 +31,7 @@ builder.Services.AddScoped<ApiLoggingFilter, ApiLoggingFilter>();
 
 var app = builder.Build();
 
+app.ConfigureExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -44,7 +45,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.ConfigureExceptionHandler();
 
 //Middlewares com run são middlewares finais após eles nem um middleware será chamado
 //app.Run(async (context) =>
