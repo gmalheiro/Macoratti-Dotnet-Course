@@ -1,6 +1,7 @@
 using ApiCatalogo.Context;
 using ApiCatalogo.Extensions;
 using ApiCatalogo.Filters;
+using ApiCatalogo.Logging;
 using ApiCatalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -33,6 +34,14 @@ var app = builder.Build();
 
 app.ConfigureExceptionHandler();
 // Configure the HTTP request pipeline.
+
+ILoggerFactory loggerFactory = new LoggerFactory();
+
+loggerFactory.AddProvider(new CustomLoggerProvider (new CustomLoggerProviderConfiguration
+{
+    LogLevel = LogLevel.Information
+}));
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
