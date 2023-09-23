@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace APICatalogo.Models
+namespace ApiCatalogoRepositorio.Models
 {
     [Table("Produtos")]
     public class Produto : IValidatableObject
@@ -16,11 +16,11 @@ namespace APICatalogo.Models
         [StringLength(80, ErrorMessage = "O nome deve ter no máximo {1} e no mínimo {2} caracteres",
             MinimumLength = 5)]
         //[PrimeiraLetraMaiuscula]
-        public string Nome { get; set; }
+        public string? Nome { get; set; }
 
         [Required]
         [StringLength(300, ErrorMessage = "A descrição deve ter no máximo {1} caracteres")]
-        public string Descricao { get; set; }
+        public string? Descricao { get; set; }
 
         [Required]
         [Range(1, 10000, ErrorMessage = "O preço deve estar entre {1} e {2}")]
@@ -28,12 +28,12 @@ namespace APICatalogo.Models
 
         [Required]
         [StringLength(300, MinimumLength = 10)]
-        public string ImagemUrl { get; set; }
+        public string? ImagemUrl { get; set; }
 
         public float Estoque { get; set; }
         public DateTime DataCadastro { get; set; }
 
-        public Categoria Categoria { get; set; }
+        public Categoria? Categoria { get; set; }
         public int CategoriaId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
