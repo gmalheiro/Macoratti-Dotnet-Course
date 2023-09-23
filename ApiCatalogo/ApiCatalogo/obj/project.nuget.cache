@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+iWAOFeemPijU0OvA/9ecplWxSPy3qQd4pymh3bTyeefsneUT6ID7I/sxKqqc5euON+g1jF78dMWiH4+eZT8CQ==",
+  "dgSpecHash": "8kO7yNJyEydNGnp/3y6ib/1NSRZ3rgDdbLONe8lEe6gsjGexJ21y/t3n4z/AeckWurepwv040ac2crkJUf8LYA==",
   "success": true,
-  "projectFilePath": "D:\\Programming\\Back\\C#\\Macoratti course\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\Documentos\\Programming\\Back\\Macoratti-Dotnet-Course\\ApiCatalogo\\ApiCatalogo\\ApiCatalogo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.3\\microsoft.entityframeworkcore.6.0.3.nupkg.sha512",
