@@ -1,4 +1,4 @@
-﻿using ApiCatalogo.Validations;
+﻿using ApiCatalogoRepositorio.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
