@@ -2,7 +2,7 @@
 
 namespace APICatalogo.Repository;
 
-public interface IProdutoRepository : IProdutoRepository<Produto> 
+public interface IProdutoRepository : IRepository<Produto> 
 {
     IEnumerable<Produto> GetProdutoPorPreco();
 }
