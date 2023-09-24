@@ -12,13 +12,13 @@ namespace APICatalogo.Validations
                 return ValidationResult.Success;
             }
 
-            var primeiraLetra = value.ToString()[0].ToString();
+            var primeiraLetra = value?.ToString()![0].ToString()!;
             if (primeiraLetra != primeiraLetra.ToUpper())
             {
                 return new ValidationResult("A primeira letra do nome do produto deve ser maiúscula");
             }
 
-            return ValidationResult.Success;
+            return ValidationResult.Success!;
         }
     }
 }
